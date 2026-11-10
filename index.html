@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Propuesta de mejora · DiDi Food Colombia (prototipo)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<aside class="panel">
+  <div class="brandrow"><div class="logo" id="logoI"></div><span class="tag">Propuesta de mejora · UX/UI</span></div>
+  <h1>DiDi Food Colombia, <span>más clara y más cómoda</span></h1>
+  <p class="lead">Prototipo navegable que responde a las falencias del análisis. El eje es la saturación visual: una sola jerarquía, menos ruido y las acciones clave al alcance del pulgar.</p>
+  <div class="toggle"><button class="sw on" id="sw" aria-label="Mostrar anotaciones"></button> Mostrar anotaciones en pantalla</div>
+  <div class="mejoras" id="mejoras"></div>
+  <p class="disclaimer">Concepto académico de diseño. No es la aplicación oficial ni está afiliado a DiDi; restaurantes, precios y personas son ficticios.</p>
+</aside>
+
+<div class="phone">
+ <div class="scr notes" id="scr">
+  <div class="notch"></div>
+  <div class="status" id="status"><span>9:41</span><span class="ic">
+    <svg viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5.5" width="3" height="6.5" rx="1"/><rect x="10" y="3" width="3" height="9" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg>
+    <svg viewBox="0 0 26 12"><rect x=".5" y=".5" width="22" height="11" rx="3.5" fill="none" stroke="currentColor" opacity=".4"/><rect x="2" y="2" width="17" height="8" rx="2"/><rect x="23.5" y="4" width="2" height="4" rx="1" opacity=".4"/></svg></span></div>
+
+  <!-- INICIO -->
+  <section class="view on" id="v-home">
+    <div class="body" style="padding:0 0 170px">
+      <div class="homehead">
+        <button class="addr" onclick="go('addr')" data-note="6">
+          <span class="pin" data-i="pin"></span>
+          <span><small>Entregar en</small><strong><span id="addrLabel">Casa · Cra. 51B #84-120</span><span data-i="down"></span></strong></span>
+        </button>
+        <div class="hello">Hola, Angela.<br>¿Qué te provoca hoy?</div>
+      </div>
+      <div class="budget" data-note="3">
+        <div class="t"><b><span data-i="wallet"></span>¿Cuánto quieres gastar?</b><a onclick="setBudget(null)">Limpiar</a></div>
+        <div class="bopts" id="budgetChips"></div>
+      </div>
+      <div style="padding:0 20px">
+        <div class="sec" style="margin-top:0"><h3>Categorías</h3></div>
+        <div class="cats" id="cats" data-note="1"></div>
+
+        <button class="promo1 press" onclick="tab('offers')" data-note="2">
+          <span class="ic" data-i="tag"></span>
+          <span style="position:relative;z-index:1"><b>Tienes 4 cupones disponibles</b><span>Todas tus ofertas en un solo lugar</span></span>
+          <span class="ar" data-i="right"></span>
+        </button>
+
+        <div class="sec" style="margin-top:22px"><h3 id="listTitle">Cerca de ti</h3><a onclick="toggleSort()">Ordenar</a></div>
+        <div id="restList"></div>
+      </div>
+    </div>
+    <div class="thumbbar" data-note="4">
+      <button class="search press" onclick="toast('Búsqueda: escribe un plato o restaurante')"><span data-i="search"></span>¿Qué quieres comer?</button>
+      <button class="cartb press" id="cartBtn" onclick="openCart()"><span data-i="bag"></span><span class="ct" id="cartCount" style="display:none">0</span></button>
+    </div>
+    <nav class="nav" id="nav1"></nav>
+  </section>
+
+  <!-- OFERTAS -->
+  <section class="view" id="v-offers">
+    <div class="bigtitle">Ofertas</div>
+    <div class="body" data-note="2">
+      <div class="chips" style="margin-bottom:16px">
+        <button class="chip on" data-offer="all" onclick="setOffer('all')">Todas</button><button class="chip" data-offer="ship" onclick="setOffer('ship')">Envío gratis</button><button class="chip" data-offer="bogo" onclick="setOffer('bogo')">2x1</button><button class="chip" data-offer="pct" onclick="setOffer('pct')">% descuento</button>
+      </div>
+      <div id="couponList"></div>
+      <p class="empty">Las condiciones de cada cupón se muestran completas antes de aplicarlo.</p>
+    </div>
+    <nav class="nav" id="nav2"></nav>
+  </section>
+
+  <!-- PEDIDOS -->
+  <section class="view" id="v-orders">
+    <div class="bigtitle">Pedidos</div>
+    <div class="body">
+      <div class="card" id="activeOrderCard" style="display:none">
+        <h4>En curso</h4>
+        <div class="driver"><div class="ava">🛵</div><div><b id="aoName">—</b><span id="aoEta">—</span></div></div>
+        <button class="cta full" style="margin-top:14px;height:50px" onclick="S.stack=['orders','track'];show('track')">Ver seguimiento</button>
+      </div>
+      <div class="card"><h4>Anteriores</h4>
+        <div class="ln"><span>🍔 Burger Barrio · 3 nov</span><b>$41.900</b></div>
+        <div class="ln"><span>🫓 Arepas La Esquina · 28 oct</span><b>$23.500</b></div>
+        <div class="ln"><span>🥗 Bowl Verde · 21 oct</span><b>$30.800</b></div>
+      </div>
+      <button class="linkbtn" onclick="go('help')" data-note="8"><span data-i="help"></span>¿Problema con un pedido? Resuélvelo aquí</button>
+    </div>
+    <nav class="nav" id="nav3"></nav>
+  </section>
+
+  <!-- PERFIL -->
+  <section class="view" id="v-profile">
+    <div class="bigtitle">Perfil</div>
+    <div class="body">
+      <div class="profcard"><div class="ava">👩🏻</div><div><b>Angela</b><span>Barranquilla · 23 pedidos</span></div></div>
+      <button class="issue" onclick="go('addr')"><i>📍</i><span><b>Mis direcciones</b><span>Con referencias guardadas</span></span><span class="ar" data-i="right"></span></button>
+      <button class="issue" onclick="toast('Métodos de pago')"><i>💳</i><span><b>Métodos de pago</b><span>Efectivo, tarjeta, Nequi, PSE</span></span><span class="ar" data-i="right"></span></button>
+      <button class="issue" onclick="go('help')"><i>💬</i><span><b>Centro de ayuda</b><span>Respuesta en menos de 10 min</span></span><span class="ar" data-i="right"></span></button>
+    </div>
+    <nav class="nav" id="nav4"></nav>
+  </section>
+
+  <!-- RESTAURANTE -->
+  <section class="view" id="v-rest">
+    <div class="body" id="restBody"></div>
+    <div class="sticky" id="restSticky" data-note="5"></div>
+  </section>
+
+  <!-- CARRITO -->
+  <section class="view" id="v-cart">
+    <div class="topbar"><button class="back" onclick="back()" data-i="left"></button><h2>Confirmar pedido</h2></div>
+    <div class="body" id="cartBody"></div>
+    <div class="sticky" id="cartSticky"></div>
+  </section>
+
+  <!-- DIRECCIÓN -->
+  <section class="view" id="v-addr">
+    <div class="body" data-note="6">
+      <div class="map"><svg class="m" id="mapA"></svg><button class="back" onclick="back()" data-i="left"></button><span class="mk" data-i="pinf"></span><span class="hint">Arrastra el mapa para ajustar el pin</span></div>
+      <div class="sheet">
+        <h2>¿Dónde te lo entregamos?</h2>
+        <div class="chips" style="margin:0 -20px 14px">
+          <button class="chip on" data-place="casa" onclick="setPlace('casa')">🏠 Casa</button><button class="chip" data-place="oficina" onclick="setPlace('oficina')">💼 Oficina</button><button class="chip" data-place="nueva" onclick="setPlace('nueva')">＋ Nueva</button>
+        </div>
+        <div class="field"><label>Dirección</label><input id="fAddr"></div>
+        <div class="two">
+          <div class="field"><label>Torre / Bloque</label><input id="fTorre"></div>
+          <div class="field"><label>Apto / Casa</label><input id="fApto"></div>
+        </div>
+        <div class="field"><label>Barrio</label><input id="fBarrio"></div>
+        <div class="field"><label>Referencias para el repartidor</label><textarea id="fRef" rows="3"></textarea></div>
+      </div>
+    </div>
+    <div class="sticky"><button class="cta full" onclick="saveAddr()">Guardar dirección</button></div>
+  </section>
+
+  <!-- SEGUIMIENTO -->
+  <section class="view" id="v-track">
+    <div class="tmap"><svg class="m" id="mapT"></svg><button class="back" onclick="tab('orders')" data-i="left"></button><button class="btn-s sim" style="color:var(--ink)" onclick="advance()">Simular avance ▸</button><div class="bike" id="bike" data-i="bike"></div></div>
+    <div class="trackbody">
+      <div class="eta"><div><small>Llegada estimada</small><h2 id="etaTxt">12:25 – 12:35</h2></div><span class="st" id="etaSt">Preparando</span></div>
+      <div class="prog" id="prog"></div>
+      <div class="card"><div class="steps" id="steps"></div></div>
+      <div class="card" data-note="7">
+        <div class="driver"><div class="ava">🧑🏽</div><div><b>Carlos M.</b><span>Moto · placa XYZ 12F · ★ 4,9</span></div></div>
+        <div class="contact">
+          <button class="press" onclick="go('chat')"><span data-i="chat"></span>Chat</button>
+          <button class="call press" onclick="toast('Llamando a Carlos (número protegido)…')"><span data-i="phone"></span>Llamar</button>
+        </div>
+        <p style="font-size:12px;color:var(--ink3);margin:14px 0 8px;font-weight:800;text-transform:uppercase;letter-spacing:.06em">Mensajes rápidos</p>
+        <div class="quick" id="quickT"></div>
+      </div>
+      <div class="card"><h4>Entregar en <a onclick="go('addr')">Editar</a></h4><div class="addrc"><span class="pin" data-i="pin"></span><div><b id="trAddr"></b><span id="trRef"></span></div></div></div>
+      <button class="linkbtn" onclick="go('help')" data-note="8"><span data-i="help"></span>Tengo un problema con este pedido</button>
+    </div>
+  </section>
+
+  <!-- CHAT -->
+  <section class="view" id="v-chat">
+    <div class="chathead"><button class="back" onclick="back()" data-i="left"></button><div class="ava">🧑🏽</div><h2>Carlos M.<small>● En camino · 6 min</small></h2><button class="back" onclick="toast('Llamando a Carlos…')" data-i="phone"></button></div>
+    <div class="msgs" id="msgs">
+      <div class="msg sys">Carlos ya ve tu dirección y tus referencias</div>
+      <div class="msg in">¡Hola! Ya recogí tu pedido, voy en camino 🛵</div>
+    </div>
+    <div class="compose" data-note="7">
+      <div class="quick" id="quickC"></div>
+      <div class="row"><input id="chatIn" placeholder="Escribe un mensaje…" onkeydown="if(event.key==='Enter')sendMsg()"><button class="send press" onclick="sendMsg()" data-i="send"></button></div>
+    </div>
+  </section>
+
+  <!-- AYUDA -->
+  <section class="view" id="v-help">
+    <div class="topbar"><button class="back" onclick="back()" data-i="left"></button><h2>¿Qué pasó con tu pedido?</h2></div>
+    <div class="body" data-note="8">
+      <div class="sla"><span class="c" data-i="clock"></span><span>Te respondemos en menos de 10 minutos. Si falta un producto, el reembolso es inmediato.</span></div>
+      <div id="issues"></div>
+    </div>
+    <div class="sticky"><button class="cta full" id="helpCta" disabled onclick="helpNext()">Continuar</button></div>
+  </section>
+
+  <section class="view" id="v-help2">
+    <div class="topbar"><button class="back" onclick="back()" data-i="left"></button><h2 id="h2title">Producto faltante</h2></div>
+    <div class="body" id="help2Body"></div>
+    <div class="sticky"><button class="cta full" id="h2cta" onclick="helpSubmit()">Solicitar reembolso</button></div>
+  </section>
+
+  <section class="view" id="v-help3">
+    <div class="body">
+      <div class="success"><div class="conf" id="conf"></div><div class="big" data-i="check"></div><h2 id="h3t">Reembolso aprobado</h2><p id="h3p"></p></div>
+      <div class="card" style="margin-top:24px"><div class="ln"><span>Número de caso</span><b>#CO-48213</b></div><div class="ln"><span>Estado</span><b style="color:var(--ok)">Resuelto</b></div></div>
+      <button class="cta full dark" onclick="tab('home')">Volver al inicio</button>
+      <div style="height:10px"></div>
+      <button class="linkbtn" onclick="toast('Conectando con un agente…')"><span data-i="chat"></span>Hablar con un agente</button>
+    </div>
+  </section>
+
+  <div class="toast" id="toast"></div>
+ </div>
+</div>
+
+<script src="js/app.js"></script>
+</body>
+</html>
